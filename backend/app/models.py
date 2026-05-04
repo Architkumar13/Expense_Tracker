@@ -45,3 +45,26 @@ class AdvisorChat(Base):
     role: Mapped[str] = mapped_column(String(16), nullable=False)  # user|assistant
     content: Mapped[str] = mapped_column(Text, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
+class Budget(Base):
+    __tablename__ = "budgets"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    category: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    monthly_limit: Mapped[float] = mapped_column(Float, nullable=False)
+    currency: Mapped[str] = mapped_column(String(8), default="USD")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
+class Goal(Base):
+    __tablename__ = "goals"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String(128), nullable=False)
+    target_amount: Mapped[float] = mapped_column(Float, nullable=False)
+    saved_amount: Mapped[float] = mapped_column(Float, default=0.0)
+    deadline: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    currency: Mapped[str] = mapped_column(String(8), default="USD")
+    notes: Mapped[str] = mapped_column(Text, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)

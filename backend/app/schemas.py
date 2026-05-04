@@ -106,3 +106,83 @@ class ChatTurn(BaseModel):
     role: str
     content: str
     created_at: datetime
+
+
+class ExpensePage(BaseModel):
+    items: list[ExpenseOut]
+    next_cursor: Optional[int] = None
+    total: int = 0
+
+
+class BudgetIn(BaseModel):
+    category: str
+    monthly_limit: float
+    currency: str = "USD"
+
+
+class BudgetUpdate(BaseModel):
+    monthly_limit: Optional[float] = None
+    currency: Optional[str] = None
+
+
+class BudgetOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    category: str
+    monthly_limit: float
+    currency: str
+    created_at: datetime
+
+
+class BudgetProgress(BaseModel):
+    category: str
+    monthly_limit: float
+    spent: float
+    remaining: float
+    percent: float
+    currency: str = "USD"
+    over_budget: bool = False
+
+
+class GoalIn(BaseModel):
+    name: str
+    target_amount: float
+    saved_amount: float = 0.0
+    deadline: Optional[datetime] = None
+    currency: str = "USD"
+    notes: str = ""
+
+
+class GoalUpdate(BaseModel):
+    name: Optional[str] = None
+    target_amount: Optional[float] = None
+    saved_amount: Optional[float] = None
+    deadline: Optional[datetime] = None
+    notes: Optional[str] = None
+
+
+class GoalOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    name: str
+    target_amount: float
+    saved_amount: float
+    deadline: Optional[datetime] = None
+    currency: str
+    notes: str
+    created_at: datetime
+
+
+class GoalContribution(BaseModel):
+    amount: float
+
+
+class Subscription(BaseModel):
+    merchant: str
+    amount: float
+    currency: str = "USD"
+    cadence_days: int
+    last_seen: datetime
+    next_expected: Optional[datetime] = None
+    count: int
+    category: str = "subscription"
